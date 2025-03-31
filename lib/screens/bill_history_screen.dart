@@ -49,14 +49,14 @@ class _BillHistoryScreenState extends State<BillHistoryScreen> {
               data: bill.items
                   .map((item) => [
                         item['name'],
-                        '\$${item['price'].toStringAsFixed(2)}',
+                        'Rs. ${item['price'].toStringAsFixed(2)}',
                         item['quantity'].toString(),
-                        '\$${(item['price'] * item['quantity']).toStringAsFixed(2)}',
+                        'Rs. ${(item['price'] * item['quantity']).toStringAsFixed(2)}',
                       ])
                   .toList(),
             ),
             pw.SizedBox(height: 20),
-            pw.Text('Total: \$${bill.total.toStringAsFixed(2)}',
+            pw.Text('Total: Rs. ${bill.total.toStringAsFixed(2)}',
                 style: pw.TextStyle(fontSize: 18)),
           ],
         ),
@@ -115,7 +115,7 @@ class _BillHistoryScreenState extends State<BillHistoryScreen> {
                 final bill = filteredBills[index];
                 return ListTile(
                   title: Text('Bill #${bill.id} - ${bill.date}'),
-                  subtitle: Text('Total: \$${bill.total.toStringAsFixed(2)}'),
+                  subtitle: Text('Total: Rs. ${bill.total.toStringAsFixed(2)}'),
                   trailing: IconButton(
                     icon: Icon(Icons.print),
                     onPressed: () => _reprintBill(bill),
@@ -134,10 +134,11 @@ class _BillHistoryScreenState extends State<BillHistoryScreen> {
                               ...bill.items.map((item) => ListTile(
                                     title: Text(item['name']),
                                     subtitle: Text(
-                                        'Price: \$${item['price']} x ${item['quantity']} = \$${(item['price'] * item['quantity']).toStringAsFixed(2)}'),
+                                        'Price: Rs. ${item['price']} x ${item['quantity']} = Rs. ${(item['price'] * item['quantity']).toStringAsFixed(2)}'),
                                   )),
                               SizedBox(height: 10),
-                              Text('Total: \$${bill.total.toStringAsFixed(2)}',
+                              Text(
+                                  'Total: Rs. ${bill.total.toStringAsFixed(2)}',
                                   style:
                                       TextStyle(fontWeight: FontWeight.bold)),
                             ],

@@ -48,7 +48,7 @@ class _DailySalesScreenState extends State<DailySalesScreen> {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  'Total Sales: \$${_totalDailySales.toStringAsFixed(2)}',
+                  'Total Sales: Rs. ${_totalDailySales.toStringAsFixed(2)}',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
               ],
@@ -65,7 +65,7 @@ class _DailySalesScreenState extends State<DailySalesScreen> {
                         title: Text(
                             'Bill #${bill.id} - ${bill.date.split('T')[1].substring(0, 8)}'),
                         subtitle:
-                            Text('Total: \$${bill.total.toStringAsFixed(2)}'),
+                            Text('Total: Rs. ${bill.total.toStringAsFixed(2)}'),
                         onTap: () {
                           showDialog(
                             context: context,
@@ -80,11 +80,11 @@ class _DailySalesScreenState extends State<DailySalesScreen> {
                                     ...bill.items.map((item) => ListTile(
                                           title: Text(item['name']),
                                           subtitle: Text(
-                                              'Price: \$${item['price']} x ${item['quantity']} = \$${(item['price'] * item['quantity']).toStringAsFixed(2)}'),
+                                              'Price: Rs. ${item['price']} x ${item['quantity']} = Rs. ${(item['price'] * item['quantity']).toStringAsFixed(2)}'),
                                         )),
                                     SizedBox(height: 10),
                                     Text(
-                                        'Total: \$${bill.total.toStringAsFixed(2)}',
+                                        'Total: Rs. ${bill.total.toStringAsFixed(2)}',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold)),
                                   ],

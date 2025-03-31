@@ -165,7 +165,7 @@ class _StockManagementScreenState extends State<StockManagementScreen> {
                   child: ListTile(
                     title: Text(item.name),
                     subtitle: Text(
-                        'Price: \$${item.price.toStringAsFixed(2)} | Qty: ${item.quantity}'),
+                        'Price: Rs. ${item.price.toStringAsFixed(2)} | Qty: ${item.quantity}'),
                     trailing: IconButton(
                       icon: Icon(Icons.edit),
                       onPressed: () => _showAddEditDialog(item: item),

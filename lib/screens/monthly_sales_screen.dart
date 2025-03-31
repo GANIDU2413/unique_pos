@@ -59,7 +59,7 @@ class _MonthlySalesScreenState extends State<MonthlySalesScreen> {
                 ),
                 SizedBox(height: 10),
                 Text(
-                  'Total Sales: \$${_totalMonthlySales.toStringAsFixed(2)}',
+                  'Total Sales: Rs. ${_totalMonthlySales.toStringAsFixed(2)}',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
               ],
@@ -74,14 +74,15 @@ class _MonthlySalesScreenState extends State<MonthlySalesScreen> {
                       final total = entry.value;
                       return ExpansionTile(
                         title: Text('Date: $date'),
-                        subtitle: Text('Total: \$${total.toStringAsFixed(2)}'),
+                        subtitle:
+                            Text('Total: Rs. ${total.toStringAsFixed(2)}'),
                         children: _monthlyBills
                             .where((bill) => bill.date.split('T')[0] == date)
                             .map((bill) => ListTile(
                                   title: Text(
                                       'Bill #${bill.id} - ${bill.date.split('T')[1].substring(0, 8)}'),
                                   subtitle: Text(
-                                      'Total: \$${bill.total.toStringAsFixed(2)}'),
+                                      'Total: Rs. ${bill.total.toStringAsFixed(2)}'),
                                   onTap: () {
                                     showDialog(
                                       context: context,
@@ -98,11 +99,11 @@ class _MonthlySalesScreenState extends State<MonthlySalesScreen> {
                                                         title:
                                                             Text(item['name']),
                                                         subtitle: Text(
-                                                            'Price: \$${item['price']} x ${item['quantity']} = \$${(item['price'] * item['quantity']).toStringAsFixed(2)}'),
+                                                            'Price: Rs. ${item['price']} x ${item['quantity']} = Rs. ${(item['price'] * item['quantity']).toStringAsFixed(2)}'),
                                                       )),
                                               SizedBox(height: 10),
                                               Text(
-                                                  'Total: \$${bill.total.toStringAsFixed(2)}',
+                                                  'Total: Rs. ${bill.total.toStringAsFixed(2)}',
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold)),

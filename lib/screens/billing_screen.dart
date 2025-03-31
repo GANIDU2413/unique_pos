@@ -95,14 +95,14 @@ class _BillingScreenState extends State<BillingScreen> {
               data: _selectedItems
                   .map((item) => [
                         item.name,
-                        '\$${item.price.toStringAsFixed(2)}',
+                        'Rs. ${item.price.toStringAsFixed(2)}',
                         item.quantity.toString(),
-                        '\$${item.subtotal.toStringAsFixed(2)}',
+                        'Rs. ${item.subtotal.toStringAsFixed(2)}',
                       ])
                   .toList(),
             ),
             pw.SizedBox(height: 20),
-            pw.Text('Total: \$${_totalAmount.toStringAsFixed(2)}',
+            pw.Text('Total: Rs. ${_totalAmount.toStringAsFixed(2)}',
                 style: pw.TextStyle(fontSize: 18)),
           ],
         ),
@@ -165,7 +165,7 @@ class _BillingScreenState extends State<BillingScreen> {
                 final item = filteredItems[index];
                 return ListTile(
                   title: Text(item.name),
-                  subtitle: Text('\$${item.price.toStringAsFixed(2)}'),
+                  subtitle: Text('Rs. ${item.price.toStringAsFixed(2)}'),
                   trailing: IconButton(
                     icon: Icon(Icons.add),
                     onPressed: () => _addItem(item),
@@ -184,7 +184,7 @@ class _BillingScreenState extends State<BillingScreen> {
                         TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 ..._selectedItems.map((item) => ListTile(
                       title: Text(item.name),
-                      subtitle: Text('\$${item.price} x ${item.quantity}'),
+                      subtitle: Text('Rs. ${item.price} x ${item.quantity}'),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -204,7 +204,7 @@ class _BillingScreenState extends State<BillingScreen> {
                       ),
                     )),
                 SizedBox(height: 10),
-                Text('Total: \$${_totalAmount.toStringAsFixed(2)}',
+                Text('Total: Rs. ${_totalAmount.toStringAsFixed(2)}',
                     style:
                         TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 SizedBox(height: 10),

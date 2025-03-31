@@ -8,6 +8,8 @@ import 'stock_management_screen.dart';
 import 'user_management_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
+  const DashboardScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

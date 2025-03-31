@@ -3,14 +3,17 @@ import '../models/bill.dart';
 import '../services/database_service.dart';
 
 class DailySalesScreen extends StatefulWidget {
+  const DailySalesScreen({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _DailySalesScreenState createState() => _DailySalesScreenState();
 }
 
 class _DailySalesScreenState extends State<DailySalesScreen> {
   final DatabaseService _dbService = DatabaseService();
   List<Bill> _dailyBills = [];
-  DateTime _selectedDate = DateTime.now();
+  final DateTime _selectedDate = DateTime.now();
 
   @override
   void initState() {

@@ -7,14 +7,17 @@ import 'dart:io';
 import 'package:open_file/open_file.dart';
 
 class BillingScreen extends StatefulWidget {
+  const BillingScreen({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _BillingScreenState createState() => _BillingScreenState();
 }
 
 class _BillingScreenState extends State<BillingScreen> {
   final DatabaseService _dbService = DatabaseService();
   List<BillingItem> _stockItems = [];
-  List<BillingItem> _selectedItems = [];
+  final List<BillingItem> _selectedItems = [];
   final TextEditingController _searchController = TextEditingController();
 
   @override
@@ -85,6 +88,7 @@ class _BillingScreenState extends State<BillingScreen> {
             pw.SizedBox(height: 20),
             pw.Text('Date: ${DateTime.now().toString()}'),
             pw.SizedBox(height: 20),
+            // ignore: deprecated_member_use
             pw.Table.fromTextArray(
               headers: ['Item', 'Price', 'Qty', 'Subtotal'],
               data: _selectedItems

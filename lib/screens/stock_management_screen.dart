@@ -3,7 +3,10 @@ import '../models/stock_item.dart';
 import '../services/database_service.dart';
 
 class StockManagementScreen extends StatefulWidget {
+  const StockManagementScreen({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _StockManagementScreenState createState() => _StockManagementScreenState();
 }
 
@@ -75,7 +78,7 @@ class _StockManagementScreenState extends State<StockManagementScreen> {
               }
 
               final newItem = StockItem(
-                id: isEdit ? item!.id : null,
+                id: isEdit ? item.id : null,
                 name: nameController.text,
                 price: double.tryParse(priceController.text) ?? 0.0,
                 quantity: int.tryParse(quantityController.text) ?? 0,
@@ -88,8 +91,10 @@ class _StockManagementScreenState extends State<StockManagementScreen> {
                   await _dbService.addStockItem(newItem);
                 }
                 _loadStockItems();
+                // ignore: use_build_context_synchronously
                 Navigator.pop(context);
               } catch (e) {
+                // ignore: use_build_context_synchronously
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Error: $e')),
                 );
@@ -106,10 +111,12 @@ class _StockManagementScreenState extends State<StockManagementScreen> {
     try {
       await _dbService.deleteStockItem(id);
       _loadStockItems();
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Item deleted successfully')),
       );
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error deleting item: $e')),
       );
@@ -172,8 +179,8 @@ class _StockManagementScreenState extends State<StockManagementScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showAddEditDialog(),
-        child: Icon(Icons.add),
         tooltip: 'Add New Item',
+        child: Icon(Icons.add),
       ),
     );
   }

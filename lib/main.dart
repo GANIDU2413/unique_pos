@@ -18,6 +18,8 @@ void main() async {
 }
 
 class UniqueSportsApp extends StatelessWidget {
+  const UniqueSportsApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

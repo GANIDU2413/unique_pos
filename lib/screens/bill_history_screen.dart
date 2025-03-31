@@ -7,7 +7,10 @@ import '../models/bill.dart';
 import '../services/database_service.dart';
 
 class BillHistoryScreen extends StatefulWidget {
+  const BillHistoryScreen({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _BillHistoryScreenState createState() => _BillHistoryScreenState();
 }
 
@@ -40,6 +43,7 @@ class _BillHistoryScreenState extends State<BillHistoryScreen> {
             pw.SizedBox(height: 20),
             pw.Text('Date: ${bill.date}'),
             pw.SizedBox(height: 20),
+            // ignore: deprecated_member_use
             pw.Table.fromTextArray(
               headers: ['Item', 'Price', 'Qty', 'Subtotal'],
               data: bill.items

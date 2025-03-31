@@ -4,6 +4,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:open_file/open_file.dart';
 import 'package:pdf/widgets.dart' as pw;
 import '../models/billing_item.dart';
+import '../models/stock_item.dart';
 import '../services/database_service.dart';
 
 class BillingScreen extends StatefulWidget {
@@ -77,9 +78,40 @@ class _BillingScreenState extends State<BillingScreen> {
       return;
     }
 
+    // Check stock availability
+    List<StockItem> currentStock = await _dbService.getStockItems();
+    for (var selectedItem in _selectedItems) {
+      final stockItem =
+          currentStock.firstWhere((item) => item.id == selectedItem.id);
+      if (stockItem.quantity < selectedItem.quantity) {
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text(
+                  'Not enough stock for ${selectedItem.name} (Available: ${stockItem.quantity})')),
+        );
+        return;
+      }
+    }
+
+    // Save the bill
     await _dbService.saveBill(
         _selectedItems.map((item) => item.toMap()).toList(), _totalAmount);
 
+    // Update stock quantities
+    for (var selectedItem in _selectedItems) {
+      final stockItem =
+          currentStock.firstWhere((item) => item.id == selectedItem.id);
+      final updatedStockItem = StockItem(
+        id: stockItem.id,
+        name: stockItem.name,
+        price: stockItem.price,
+        quantity: stockItem.quantity - selectedItem.quantity,
+      );
+      await _dbService.updateStockItem(updatedStockItem);
+    }
+
+    // Generate PDF
     final pdf = pw.Document();
     pdf.addPage(
       pw.Page(
@@ -112,7 +144,13 @@ class _BillingScreenState extends State<BillingScreen> {
     // Use platform-aware directory
     Directory? directory;
     if (Platform.isAndroid) {
-      directory = await getExternalStorageDirectory();
+      try {
+        directory = await getExternalStorageDirectory();
+      } catch (e) {
+        // ignore: avoid_print
+        print('Error getting external storage directory: $e');
+        directory = await getApplicationDocumentsDirectory();
+      }
     } else {
       directory = await getApplicationDocumentsDirectory();
     }
@@ -129,9 +167,11 @@ class _BillingScreenState extends State<BillingScreen> {
       );
     }
 
+    // Clear selected items and reload stock
     setState(() {
       _selectedItems.clear();
     });
+    await _loadStockItems(); // Refresh stock list to reflect updated quantities
   }
 
   @override

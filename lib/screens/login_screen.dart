@@ -27,18 +27,26 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text('Unique Sports POS',
-                  style: Theme.of(context).textTheme.headlineSmall),
+                  style: Theme.of(context).textTheme.headlineMedium),
               SizedBox(height: 20),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Username'),
-                validator: (value) => value!.isEmpty ? 'Enter username' : null,
-                onSaved: (value) => _username = value!,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: TextFormField(
+                  decoration: InputDecoration(labelText: 'Username'),
+                  validator: (value) =>
+                      value!.isEmpty ? 'Enter username' : null,
+                  onSaved: (value) => _username = value!,
+                ),
               ),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Password'),
-                obscureText: true,
-                validator: (value) => value!.isEmpty ? 'Enter password' : null,
-                onSaved: (value) => _password = value!,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: TextFormField(
+                  decoration: InputDecoration(labelText: 'Password'),
+                  obscureText: true,
+                  validator: (value) =>
+                      value!.isEmpty ? 'Enter password' : null,
+                  onSaved: (value) => _password = value!,
+                ),
               ),
               SizedBox(height: 20),
               ElevatedButton(

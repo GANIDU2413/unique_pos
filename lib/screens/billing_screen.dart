@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+import 'package:open_file/open_file.dart';
+import 'package:pdf/widgets.dart' as pw;
 import '../models/billing_item.dart';
 import '../services/database_service.dart';
-import 'package:pdf/widgets.dart' as pw;
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
-import 'package:open_file/open_file.dart';
 
 class BillingScreen extends StatefulWidget {
   const BillingScreen({super.key});
@@ -17,7 +17,8 @@ class BillingScreen extends StatefulWidget {
 class _BillingScreenState extends State<BillingScreen> {
   final DatabaseService _dbService = DatabaseService();
   List<BillingItem> _stockItems = [];
-  final List<BillingItem> _selectedItems = [];
+  // ignore: prefer_final_fields
+  List<BillingItem> _selectedItems = [];
   final TextEditingController _searchController = TextEditingController();
 
   @override
@@ -108,11 +109,25 @@ class _BillingScreenState extends State<BillingScreen> {
       ),
     );
 
-    final dir = await getExternalStorageDirectory();
-    final file =
-        File('${dir!.path}/bill_${DateTime.now().millisecondsSinceEpoch}.pdf');
-    await file.writeAsBytes(await pdf.save());
-    OpenFile.open(file.path);
+    // Use platform-aware directory
+    Directory? directory;
+    if (Platform.isAndroid) {
+      directory = await getExternalStorageDirectory();
+    } else {
+      directory = await getApplicationDocumentsDirectory();
+    }
+
+    if (directory != null) {
+      final file = File(
+          '${directory.path}/bill_${DateTime.now().millisecondsSinceEpoch}.pdf');
+      await file.writeAsBytes(await pdf.save());
+      OpenFile.open(file.path);
+    } else {
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Unable to access storage directory')),
+      );
+    }
 
     setState(() {
       _selectedItems.clear();

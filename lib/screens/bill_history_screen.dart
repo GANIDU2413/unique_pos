@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
-import 'dart:io';
 import 'package:open_file/open_file.dart';
 import '../models/bill.dart';
 import '../services/database_service.dart';
@@ -63,11 +63,25 @@ class _BillHistoryScreenState extends State<BillHistoryScreen> {
       ),
     );
 
-    final dir = await getExternalStorageDirectory();
-    final file = File(
-        '${dir!.path}/bill_reprint_${bill.id}_${DateTime.now().millisecondsSinceEpoch}.pdf');
-    await file.writeAsBytes(await pdf.save());
-    OpenFile.open(file.path);
+    // Use platform-aware directory
+    Directory? directory;
+    if (Platform.isAndroid) {
+      directory = await getExternalStorageDirectory();
+    } else {
+      directory = await getApplicationDocumentsDirectory();
+    }
+
+    if (directory != null) {
+      final file = File(
+          '${directory.path}/bill_reprint_${bill.id}_${DateTime.now().millisecondsSinceEpoch}.pdf');
+      await file.writeAsBytes(await pdf.save());
+      OpenFile.open(file.path);
+    } else {
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Unable to access storage directory')),
+      );
+    }
   }
 
   @override
